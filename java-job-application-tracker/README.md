@@ -86,6 +86,10 @@ Before pushing, ensure you have not added real passwords, API keys, or personal 
 
 Screenshots
 
-Dashboard
+Job Tracker Dashboard
+
+"Dashboard Screenshot" (./java-job-application-tracker/screenshots/jobtracker.png)
 
 Add Application Form
+
+"Add Application Form Screenshot" (./java-job-application-tracker/screenshots/jobtrack.png)
