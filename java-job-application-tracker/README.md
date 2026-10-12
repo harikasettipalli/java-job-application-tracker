@@ -83,3 +83,9 @@ src/main/resources/
 
 ## GitHub safety
 Before pushing, ensure you have not added real passwords, API keys, or personal data. Commit the code and README, not secrets.
+
+Screenshots
+
+Dashboard
+
+Add Application Form
