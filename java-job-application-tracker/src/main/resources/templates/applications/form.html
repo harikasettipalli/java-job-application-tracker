@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle} + ' | CareerTrack'">Application form</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" th:href="@{/applications}">Career<span>Track</span></a>
+    <a class="back-link" th:href="@{/applications}">← Back to applications</a>
+</header>
+<main class="container form-container">
+    <section class="form-heading">
+        <p class="eyebrow">YOUR NEXT OPPORTUNITY</p>
+        <h1 th:text="${pageTitle}">Add application</h1>
+        <p class="muted">Record the details now so you can follow up later.</p>
+    </section>
+
+    <form class="panel application-form" th:object="${application}"
+          th:action="${application.id == null} ? @{/applications} : @{/applications/{id}(id=${application.id})}"
+          method="post">
+        <div class="form-grid">
+            <div class="field">
+                <label for="companyName">Company name <span>*</span></label>
+                <input id="companyName" type="text" th:field="*{companyName}" placeholder="e.g. Infosys" required>
+                <small class="error" th:errors="*{companyName}"></small>
+            </div>
+            <div class="field">
+                <label for="jobRole">Job role <span>*</span></label>
+                <input id="jobRole" type="text" th:field="*{jobRole}" placeholder="e.g. Java Developer" required>
+                <small class="error" th:errors="*{jobRole}"></small>
+            </div>
+            <div class="field">
+                <label for="applicationDate">Application date <span>*</span></label>
+                <input id="applicationDate" type="date" th:field="*{applicationDate}" required>
+                <small class="error" th:errors="*{applicationDate}"></small>
+            </div>
+            <div class="field">
+                <label for="status">Status <span>*</span></label>
+                <select id="status" th:field="*{status}" required>
+                    <option value="Applied">Applied</option>
+                    <option value="Assessment">Assessment</option>
+                    <option value="Interview">Interview</option>
+                    <option value="Offer">Offer</option>
+                    <option value="Rejected">Rejected</option>
+                    <option value="Withdrawn">Withdrawn</option>
+                </select>
+                <small class="error" th:errors="*{status}"></small>
+            </div>
+            <div class="field full-width">
+                <label for="jobLink">Job link</label>
+                <input id="jobLink" type="url" th:field="*{jobLink}" placeholder="https://company.com/careers/job">
+                <small class="error" th:errors="*{jobLink}"></small>
+            </div>
+            <div class="field full-width">
+                <label for="notes">Notes</label>
+                <textarea id="notes" th:field="*{notes}" rows="4" placeholder="Recruiter details, follow-up date, interview notes..."></textarea>
+                <small class="error" th:errors="*{notes}"></small>
+            </div>
+        </div>
+        <div class="form-actions">
+            <a class="button secondary" th:href="@{/applications}">Cancel</a>
+            <button class="button primary" type="submit">Save application</button>
+        </div>
+    </form>
+    <footer>Fields marked * are required.</footer>
+</main>
+</body>
+</html>

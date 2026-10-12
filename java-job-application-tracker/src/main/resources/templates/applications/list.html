@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Job Applications</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" th:href="@{/applications}">Career<span>Track</span></a>
+    <span class="topbar-note">Your job search, organized</span>
+</header>
+
+<main class="container">
+    <section class="hero">
+        <div>
+            <p class="eyebrow">JOB SEARCH DASHBOARD</p>
+            <h1>My applications</h1>
+            <p class="muted">Keep every opportunity in one place.</p>
+        </div>
+        <a class="button primary" th:href="@{/applications/new}">+ Add application</a>
+    </section>
+
+    <div class="alert success" th:if="${successMessage}" th:text="${successMessage}"></div>
+
+    <section class="stats">
+        <div class="stat-card">
+            <span class="stat-label">Applications tracked</span>
+            <strong th:text="${#lists.size(applications)}">0</strong>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">A fresh start</span>
+            <strong>One step at a time</strong>
+        </div>
+    </section>
+
+    <section class="panel">
+        <div class="panel-heading">
+            <div>
+                <h2>Application list</h2>
+                <p class="muted">Review, update, or remove an application.</p>
+            </div>
+        </div>
+
+        <div class="empty-state" th:if="${#lists.isEmpty(applications)}">
+            <div class="empty-icon">↗</div>
+            <h3>No applications yet</h3>
+            <p>Add your first job application to start tracking your progress.</p>
+            <a class="button primary" th:href="@{/applications/new}">Add your first application</a>
+        </div>
+
+        <div class="table-wrap" th:unless="${#lists.isEmpty(applications)}">
+            <table>
+                <thead>
+                <tr>
+                    <th>Company / Role</th>
+                    <th>Applied on</th>
+                    <th>Status</th>
+                    <th>Job link</th>
+                    <th>Notes</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="app : ${applications}">
+                    <td>
+                        <strong th:text="${app.companyName}">Company</strong>
+                        <span class="subtext" th:text="${app.jobRole}">Role</span>
+                    </td>
+                    <td th:text="${#temporals.format(app.applicationDate, 'dd MMM yyyy')}">01 Jan 2026</td>
+                    <td><span class="status" th:text="${app.status}"
+                              th:classappend="${app.status == 'Offer' ? ' status-offer' : (app.status == 'Rejected' ? ' status-rejected' : (app.status == 'Interview' ? ' status-interview' : ''))}">Applied</span></td>
+                    <td>
+                        <a class="text-link" th:if="${app.jobLink != null and !#strings.isEmpty(app.jobLink)}"
+                           th:href="${app.jobLink}" target="_blank" rel="noopener noreferrer">Open link ↗</a>
+                        <span class="muted" th:if="${app.jobLink == null or #strings.isEmpty(app.jobLink)}">—</span>
+                    </td>
+                    <td class="notes-cell" th:text="${app.notes != null and !#strings.isEmpty(app.notes) ? app.notes : '—'}">Notes</td>
+                    <td>
+                        <div class="actions">
+                            <a class="button small secondary" th:href="@{/applications/{id}/edit(id=${app.id})}">Edit</a>
+                            <form th:action="@{/applications/{id}/delete(id=${app.id})}" method="post"
+                                  onsubmit="return confirm('Delete this application?');">
+                                <button class="button small danger" type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <footer>Built with Java 17 · Spring Boot · Thymeleaf · MySQL</footer>
+</main>
+</body>
+</html>
